@@ -8,6 +8,8 @@ $(document).ready(function() {
   // Create an array with each index holding a string of text from 9 AM to 5 PM
   var timeBlockTextArray = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
 
+  init();
+
   // Add Event Listeners
 
   // Click event for button
@@ -16,8 +18,6 @@ $(document).ready(function() {
 
     // Stores the note to localStorage
   })
-
-  init();
 
   // Create a function to load scheduler
   function renderHtmlElements() {
@@ -45,7 +45,7 @@ $(document).ready(function() {
       // Create a <span> with a class of "input-group-text", a value from 9 to 5 & text from the timeBlockTextArray 
       timeSpan = $("<span>" + timeBlockHour + "</span>");
       timeSpan.attr("class", "input-group-text");
-      timeSpan.attr("value", [i]);
+      timeSpan.attr("value", i);
 
       // Create a <textarea> with a class of "form-control" & aria-label="With textarea"
       inputTextArea = $("<textarea>");
@@ -54,7 +54,9 @@ $(document).ready(function() {
 
       // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-secondary"
       saveButton = $("<button>");
-      saveButton.attr("class", "saveBtn fa fa-floppy-o fa-2x btn btn-secondary");
+      saveButton.attr("type", "button");
+      saveButton.attr("class", "fa fa-floppy-o fa-2x btn btn-secondary saveBtn");
+      saveButton.attr("data-index", i);
 
       // Append the elements as follows:
 
