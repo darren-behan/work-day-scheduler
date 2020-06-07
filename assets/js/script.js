@@ -5,6 +5,9 @@ $(document).ready(function() {
   // Create a global variable to store the note entered
   var notes = [];
 
+  // Create an array with each index holding a string of text from 9 AM to 5 PM
+  var timeBlockTextArray = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+
   // Add Event Listeners
 
   // Click event for button
@@ -14,56 +17,77 @@ $(document).ready(function() {
     // Stores the note to localStorage
   })
 
-  // Create an array with each index holding a string of text from 9 AM to 5 PM
-
   init();
 
   // Create a function to load scheduler
   function renderHtmlElements() {
 
-  // Create a for loop of an array 
+    // Create a for loop of an array 
+    for (var i = 0; i < timeBlockTextArray.length; i++) {
 
-  // Create the html elements with classes
+      // Stores each index of the timeBlockTextArray
+      timeBlockHour = timeBlockTextArray[i];
 
-    // Create a <div> with a class of "row"
+      // Create the html elements with classes:
 
-    // Create a <section> with classes of "input-group time-block"
+      // Create a <div> with a class of "row"
+      rowDiv = $("<div>");
+      rowDiv.attr("class", "row");
 
-    // Create a <div> with a class of "input-group-prepend"
+      // Create a <section> with classes of "input-group time-block"
+      timeBlockSection = $("<section>");
+      timeBlockSection.attr("class", "input-group time-block");
 
-    // Create a <span> with a class of "input-group-text" and a value from 9 to 5
+      // Create a <div> with a class of "input-group-prepend"
+      timeDiv = $("<div>");
+      timeDiv.attr("class", "input-group-prepend");
 
-      // Assign text to the <span>
+      // Create a <span> with a class of "input-group-text", a value from 9 to 5 & text from the timeBlockTextArray 
+      timeSpan = $("<span>" + timeBlockHour + "</span>");
+      timeSpan.attr("class", "input-group-text");
+      timeSpan.attr("value", [i]);
 
-    // Create a <textarea> with a class of "form-control" & aria-label="With textarea"
-    
-    // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-secondary"
+      // Create a <textarea> with a class of "form-control" & aria-label="With textarea"
+      inputTextArea = $("<textarea>");
+      inputTextArea.attr("class", "form-control");
+      inputTextArea.attr("aria-label", "With textarea");
 
-  // Append the elements as follows:
+      // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-secondary"
+      saveButton = $("<button>");
+      saveButton.attr("class", "saveBtn fa fa-floppy-o fa-2x btn btn-secondary");
 
-    // (".row") appends to (".container")
+      // Append the elements as follows:
 
-    // <section> appends to (".row")
+      // (".row") appends to (".container")
+      $(".container").append(rowDiv);
 
-    // <div> (".input-group-prepend") appends to section
+      // <section> appends to (".row")
+      rowDiv.append(timeBlockSection);
 
-    // span appends to div (".input-group-prepend")
+      // <div> (".input-group-prepend") appends to section
+      timeBlockSection.append(timeDiv);
 
-    // <textarea> appends to <section>
+      // span appends to div (".input-group-prepend")
+      timeDiv.append(timeSpan);
 
-    // <button> appends to <section>
+      // <textarea> appends to <section>
+      timeBlockSection.append(inputTextArea);
 
-  // html with classes desired layout:
+      // <button> appends to <section>
+      timeBlockSection.append(saveButton);
 
-  // <div class="row">
-  //   <section class="input-group time-block">
-  //     <div class="input-group-prepend">
-  //       <span class="input-group-text"></span>
-  //     </div>
-  //     <textarea class="form-control" aria-label="With textarea"></textarea>
-  //     <button class="saveBtn fa fa-floppy-o fa-2x btn btn-secondary"></button>
-  //   </section>
-  // </div>
+    // html with classes desired layout:
+
+    // <div class="row">
+    //   <section class="input-group time-block">
+    //     <div class="input-group-prepend">
+    //       <span class="input-group-text"></span>
+    //     </div>
+    //     <textarea class="form-control" aria-label="With textarea"></textarea>
+    //     <button class="saveBtn fa fa-floppy-o fa-2x btn btn-secondary"></button>
+    //   </section>
+    // </div>
+    }
   }
 
 // As the clock moves into the next day
@@ -74,14 +98,17 @@ $(document).ready(function() {
 
 // As the clock moves to the next hour, the relevant <textarea> is assigned the ".present" class with the previous hour ".past" class
 
-  // Init
+  // init
   function init() {
     console.log("page has loaded!!");
     // localStorage getItem to append to the relevant ".row" <textarea>
 
-    // loads the function to display <textarea> colors based on the time
+    // Loads the function to display <textarea> colors based on the time
 
-    // loads moment.js
+    // Loads moment.js
+
+    // Render HTML
+    renderHtmlElements();
   }
 
 });
