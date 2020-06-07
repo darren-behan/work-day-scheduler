@@ -55,7 +55,7 @@ $(document).ready(function() {
       // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-secondary"
       saveButton = $("<button>");
       saveButton.attr("type", "button");
-      saveButton.attr("class", "fa fa-floppy-o fa-2x btn btn-secondary saveBtn");
+      saveButton.attr("class", "fa fa-floppy-o fa-2x btn btn-success saveBtn");
       saveButton.attr("data-index", i);
 
       // Append the elements as follows:
@@ -78,17 +78,6 @@ $(document).ready(function() {
       // <button> appends to <section>
       timeBlockSection.append(saveButton);
 
-    // html with classes desired layout:
-
-    // <div class="row">
-    //   <section class="input-group time-block">
-    //     <div class="input-group-prepend">
-    //       <span class="input-group-text"></span>
-    //     </div>
-    //     <textarea class="form-control" aria-label="With textarea"></textarea>
-    //     <button class="saveBtn fa fa-floppy-o fa-2x btn btn-secondary"></button>
-    //   </section>
-    // </div>
     }
   }
 
@@ -102,9 +91,10 @@ $(document).ready(function() {
 
   // init
   function init() {
-    console.log("page has loaded!!");
+    localStorage.setItem("id", "I've been retrieved locally");
     // localStorage getItem to append to the relevant ".row" <textarea>
-
+    var getItem = localStorage.getItem("id");
+    console.log(getItem);
     // Loads the function to display <textarea> colors based on the time
 
     // Loads moment.js
