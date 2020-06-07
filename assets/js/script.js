@@ -1,14 +1,25 @@
 $(document).ready(function() {
 
-console.log("I'm loaded");
+  // Create variables
 
-// Create variables
+  // Create a global variable to store the note entered
+  var notes = [];
 
-  // Create a variable to store the note entered
+  // Add Event Listeners
 
-// Create an array with each index holding a string of text from 9 AM to 5 PM
+  // Click event for button
+  $(".saveBtn").on("click", function() {
+    console.log("I've been clicked");
 
-// Create a function to load scheduler
+    // Stores the note to localStorage
+  })
+
+  // Create an array with each index holding a string of text from 9 AM to 5 PM
+
+  init();
+
+  // Create a function to load scheduler
+  function renderHtmlElements() {
 
   // Create a for loop of an array 
 
@@ -53,6 +64,7 @@ console.log("I'm loaded");
   //     <button class="saveBtn fa fa-floppy-o fa-2x btn btn-secondary"></button>
   //   </section>
   // </div>
+  }
 
 // As the clock moves into the next day
 
@@ -62,18 +74,14 @@ console.log("I'm loaded");
 
 // As the clock moves to the next hour, the relevant <textarea> is assigned the ".present" class with the previous hour ".past" class
 
-// Add Event Listeners
+  // Init
+  function init() {
+    console.log("page has loaded!!");
+    // localStorage getItem to append to the relevant ".row" <textarea>
 
-  // Click event for button
+    // loads the function to display <textarea> colors based on the time
 
-    // Stores the note to localStorage
-
-// Init
-
-  // localStorage getItem to append to the relevant ".row" <textarea>
-
-  // loads the function to display <textarea> colors based on the time
-
-  // loads moment.js
+    // loads moment.js
+  }
 
 });
