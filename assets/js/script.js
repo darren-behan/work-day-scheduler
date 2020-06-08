@@ -2,8 +2,6 @@ $(document).ready(function() {
 
   // Create variables
   var currentHour = moment().hour();
-
-  // Create a global variable to store the note entered
   var notesArray = [];
   var notesObject = {};
 
@@ -19,14 +17,35 @@ $(document).ready(function() {
     renderHtmlElements();
 
     // localStorage getItem to append to the relevant ".row" <textarea>
-    getNote();
-
-    // Store notes submitted by user to localStorage
-    storeNotes();
+    renderNotes();
 
     // Loads the function to display <textarea> colors based on the time
     styleTextAreaBasedOnTime();
   }
+
+  // Event Listeners
+
+  // Click event for save button
+  $(".saveBtn").on("click", function(event) {
+    event.preventDefault();
+
+    // Store the data-index of button
+    var buttonId = $(this).attr('data-index');
+
+    // Store the data-index of button
+    var textAreaValue = $(this).closest('section').find('textarea').val().trim();
+
+    // Object to store the note and it's row unique key
+    notesObject = {};
+
+    // Create key-value pair in notesObject with the key being the rowUniqueKey and the value being that rows textAreaValue
+    notesObject[buttonId] = textAreaValue;
+
+    // Push the notesObject to the notesArray
+    notesArray.push(notesObject);
+    
+    storeNotes();
+  })
 
   // Create a function to load scheduler
   function renderHtmlElements() {
@@ -60,7 +79,7 @@ $(document).ready(function() {
       inputTextArea = $("<textarea>");
       inputTextArea.attr("id", timeBlockTextArray[i]);
       inputTextArea.attr("class", "form-control");
-      inputTextArea.attr("aria-label", "With textarea");            
+      inputTextArea.attr("aria-label", "With textarea");         
 
       // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-secondary"
       saveButton = $("<button>");
@@ -87,7 +106,34 @@ $(document).ready(function() {
 
       // <button> appends to <section>
       timeBlockSection.append(saveButton);
+    }
+  }
 
+  function renderNotes() {
+    // Get stored notes from localStorage
+    // Parsing the JSON string to an object
+    var storedNotes = JSON.parse(localStorage.getItem("note"));
+
+    // If notes were retrieved from localStorage, update the notes array to it
+    if (storedNotes !== null) {
+      notesArray = storedNotes;
+    }
+
+    // Clearing the textarea
+    $('.form-control').val('');
+
+    // Render notes to the DOM
+    // Loop through notesArray
+    for (var i = 0; i < notesArray.length; i++) {
+      // Assign each note (key/value) to a variable
+      var note = notesArray[i];
+      // Assign the key of each note to a variable
+      var getKey = Object.keys(note);
+      // Assign the value of the note to a variable
+      var getValue = Object.values(note);
+      console.log(getValue);
+      // Assign the values to it's respective textarea
+      $('#' + getKey).val(getValue[0]);
     }
   }
 
@@ -118,32 +164,7 @@ $(document).ready(function() {
 
   // Create a function to store each note to the localStorage 
   function storeNotes() {
-    // Click event for save button
-    $(".saveBtn").on("click", function(event) {
-      event.preventDefault();
-
-      // Store the data-index of button
-      var buttonId = $(this).attr('data-index');
-
-      // Store the data-index of button
-      var textAreaValue = $(this).closest('section').find('textarea').val().trim();
-
-      // Object to store the note and it's row unique key
-      notesObject = {};
-
-      // Create key-value pair in notesObject with the key being the rowUniqueKey and the value being that rows textAreaValue
-      notesObject[buttonId] = textAreaValue;
-
-      // Push the notesObject to the notesArray
-      notesArray.push(notesObject);
-
-      // Store the note in the localStorage
-      localStorage.setItem("note", JSON.stringify(notesArray));      
-    })
+    // Store the note in the localStorage
+    localStorage.setItem("note", JSON.stringify(notesArray)); 
   }
-
-  function getNote() {
-    console.log("I've been retrieved");
-  }
-
 });
