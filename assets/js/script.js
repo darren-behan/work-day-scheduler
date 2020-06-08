@@ -1,15 +1,14 @@
 $(document).ready(function() {
 
   // Create variables
+  var currentHour = moment().hour();
 
   // Create a global variable to store the note entered
   var notesArray = [];
   var notesObject = {};
-  var savedNotes;
-  var storedNotes;
 
   // Create an array with each index holding a string of text from 9 AM to 5 PM
-  var timeBlockTextArray = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"];
+  var timeBlockTextArray = ["9", "10", "11", "12", "13", "14", "15", "16", "17"];
 
   init();
 
@@ -19,16 +18,14 @@ $(document).ready(function() {
     // Render HTML
     renderHtmlElements();
 
-    // Store notes submitted by user to localStorage
-    storeNotes();
-
     // localStorage getItem to append to the relevant ".row" <textarea>
     getNote();
 
+    // Store notes submitted by user to localStorage
+    storeNotes();
+
     // Loads the function to display <textarea> colors based on the time
-
-    // Loads moment.js
-
+    styleTextAreaBasedOnTime();
   }
 
   // Create a function to load scheduler
@@ -55,13 +52,13 @@ $(document).ready(function() {
       timeDiv.attr("class", "input-group-prepend");
 
       // Create a <span> with a class of "input-group-text", a value from 9 to 5 & text from the timeBlockTextArray 
-      timeSpan = $("<span>" + timeBlockHour + "</span>");
+      timeSpan = $("<span>" + timeBlockHour + ":00" + "</span>");
       timeSpan.attr("class", "input-group-text");
       timeSpan.attr("value", i);
 
       // Create a <textarea> with a class of "form-control" & aria-label="With textarea"
       inputTextArea = $("<textarea>");
-      inputTextArea.attr("id", "area-" + i);
+      inputTextArea.attr("id", timeBlockTextArray[i]);
       inputTextArea.attr("class", "form-control");
       inputTextArea.attr("aria-label", "With textarea");            
 
@@ -69,7 +66,7 @@ $(document).ready(function() {
       saveButton = $("<button>");
       saveButton.attr("type", "button");
       saveButton.attr("class", "fa fa-floppy-o fa-2x btn btn-success saveBtn");
-      saveButton.attr("data-index", i);
+      saveButton.attr("data-index", timeBlockTextArray[i]);
 
       // Append the elements as follows:
 
@@ -94,6 +91,31 @@ $(document).ready(function() {
     }
   }
 
+  // Create a function to style each textarea based on the current time
+  function styleTextAreaBasedOnTime() {
+    // Map each textarea id, return each id and store in an array
+    var textAreaId = $(".form-control[id]").map(function() {
+      // Return textarea id
+      return this.id;
+    });
+
+    // For loop through each textarea id
+    for (var i = 0; i < textAreaId.length; i++) {
+      // Parse each string and returns an integer
+      var textAreaInt = parseInt(textAreaId[i]);
+      // If any hour in the textAreaInt array is equal to the current hour, assign the class "present" which makes that textarea red
+      if (currentHour === textAreaInt) {
+        $("#" + textAreaId[i]).addClass("present");
+        // If any hour in the textAreaInt array is less than the current hour, assign the class "future" which makes that textarea green
+      } else if (currentHour < textAreaInt) {
+        $("#" + textAreaId[i]).addClass("future");
+        // If any hour in the textAreaInt array is greater than the current hour, assign the class "past" which makes that textarea grey
+      } else {
+        $("#" + textAreaId[i]).addClass("past");
+      }
+    }
+  }
+
   // As the clock moves into the next day
 
     // Each <textarea> is reset to empty() value and assign the ".future" class
@@ -102,9 +124,12 @@ $(document).ready(function() {
 
   // As the clock moves to the next hour, the relevant <textarea> is assigned the ".present" class with the previous hour ".past" class
 
+  // Create a function to store each note to the localStorage 
   function storeNotes() {
     // Click event for save button
-    $(".saveBtn").on("click", function() {
+    $(".saveBtn").on("click", function(event) {
+      event.preventDefault();
+
       // Store the data-index of button
       var rowUniqueKey = $(this).attr("data-index");
       console.log(rowUniqueKey);
