@@ -94,7 +94,7 @@ $(document).ready(function() {
   // Create a function to style each textarea based on the current time
   function styleTextAreaBasedOnTime() {
     // Map each textarea id, return each id and store in an array
-    var textAreaId = $(".form-control[id]").map(function() {
+    textAreaId = $(".form-control[id]").map(function() {
       // Return textarea id
       return this.id;
     });
@@ -116,14 +116,6 @@ $(document).ready(function() {
     }
   }
 
-  // As the clock moves into the next day
-
-    // Each <textarea> is reset to empty() value and assign the ".future" class
-
-  // As the current hits, the first <textarea> is assigned the ".present" class
-
-  // As the clock moves to the next hour, the relevant <textarea> is assigned the ".present" class with the previous hour ".past" class
-
   // Create a function to store each note to the localStorage 
   function storeNotes() {
     // Click event for save button
@@ -131,22 +123,19 @@ $(document).ready(function() {
       event.preventDefault();
 
       // Store the data-index of button
-      var rowUniqueKey = $(this).attr("data-index");
-      console.log(rowUniqueKey);
+      var buttonId = $(this).attr('data-index');
 
-      // Store the textarea value of the row the button was clicked
-      var textAreaValue = $(".form-control").val();
-      console.log(textAreaValue);
+      // Store the data-index of button
+      var textAreaValue = $(this).closest('section').find('textarea').val().trim();
 
       // Object to store the note and it's row unique key
       notesObject = {};
 
       // Create key-value pair in notesObject with the key being the rowUniqueKey and the value being that rows textAreaValue
-      notesObject[rowUniqueKey] = textAreaValue;
+      notesObject[buttonId] = textAreaValue;
 
       // Push the notesObject to the notesArray
       notesArray.push(notesObject);
-      console.log(notesArray);
 
       // Store the note in the localStorage
       localStorage.setItem("note", JSON.stringify(notesArray));      
