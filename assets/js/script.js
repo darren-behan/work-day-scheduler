@@ -1,20 +1,27 @@
-$(document).ready(function() {
-
+$(document).ready(function () {
   // Create variables
   var currentDate = moment().format("dddd, MMMM Do YYYY");
-  var currentTime = moment().format("H:mm:ss");
   var currentHour = moment().hour();
   var notesArray = [];
   var notesObject = {};
 
   // Create an array with each index holding a string of text from 9 AM to 5 PM
-  var timeBlockTextArray = ["9", "10", "11", "12", "13", "14", "15", "16", "17"];
+  var timeBlockTextArray = [
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+  ];
 
   init();
 
   // init
   function init() {
-
     // Render HTML
     renderHtmlElements();
 
@@ -28,7 +35,7 @@ $(document).ready(function() {
   // Event Listeners
 
   // Click event for save button
-  $(".saveBtn").on("click", function(event) {
+  $(".saveBtn").on("click", function (event) {
     event.preventDefault();
 
     // Store the data-index of button
@@ -45,16 +52,16 @@ $(document).ready(function() {
 
     // Push the notesObject to the notesArray
     notesArray.push(notesObject);
-    
+
     storeNotes();
-  })
+  });
 
   // Click event for save button
-  $(".clear").on("click", function(event) {
+  $(".clear").on("click", function (event) {
     event.preventDefault();
 
     clearNotes();
-  })
+  });
 
   // Create a function to load scheduler
   function renderHtmlElements() {
@@ -66,9 +73,8 @@ $(document).ready(function() {
       $("#currentTime").html(moment().format("H:mm:ss"));
     }, 1000);
 
-    // Create a for loop of an array 
+    // Create a for loop of an array
     for (var i = 0; i < timeBlockTextArray.length; i++) {
-
       // Stores each index of the timeBlockTextArray
       timeBlockHour = timeBlockTextArray[i];
 
@@ -86,7 +92,7 @@ $(document).ready(function() {
       timeDiv = $("<div>");
       timeDiv.attr("class", "input-group-prepend");
 
-      // Create a <span> with a class of "input-group-text", a value from 9 to 5 & text from the timeBlockTextArray 
+      // Create a <span> with a class of "input-group-text", a value from 9 to 5 & text from the timeBlockTextArray
       timeSpan = $("<span>" + timeBlockHour + ":00" + "</span>");
       timeSpan.attr("class", "input-group-text");
       timeSpan.attr("value", i);
@@ -95,7 +101,7 @@ $(document).ready(function() {
       inputTextArea = $("<textarea>");
       inputTextArea.attr("id", timeBlockTextArray[i]);
       inputTextArea.attr("class", "form-control");
-      inputTextArea.attr("aria-label", "With textarea");         
+      inputTextArea.attr("aria-label", "With textarea");
 
       // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-success"
       saveButton = $("<button>");
@@ -125,13 +131,20 @@ $(document).ready(function() {
     }
 
     // Create a <button> with classes of "btn btn-success"
+    buttonDiv = $("<div>");
+    buttonDiv.attr("class", "row justify-content-center");
+    buttonDiv.css("padding", "2.5vh 0vw");
+
+    // Create a <button> with classes of "btn btn-success"
     clearNotesButton = $("<button>");
     clearNotesButton.attr("type", "button");
     clearNotesButton.attr("class", "btn btn-danger clear");
-    clearNotesButton.html("Clear Schedule");        
+    clearNotesButton.html("Clear Schedule");
 
-    // (".btn btn-danger") appends to (".container")
-    $(".container").append(clearNotesButton);
+    // buttonDiv appends to (".container")
+    $(".container").append(buttonDiv);
+    // (".btn btn-danger") appends to buttonDiv
+    $(buttonDiv).append(clearNotesButton);
   }
 
   function renderNotes() {
@@ -164,7 +177,7 @@ $(document).ready(function() {
   // Create a function to style each textarea based on the current time
   function styleTextAreaBasedOnTime() {
     // Map each textarea id, return each id and store in an array
-    textAreaId = $(".form-control").map(function() {
+    textAreaId = $(".form-control").map(function () {
       // Return textarea id
       return this.id;
     });
@@ -186,10 +199,10 @@ $(document).ready(function() {
     }
   }
 
-  // Create a function to store each note to the localStorage 
+  // Create a function to store each note to the localStorage
   function storeNotes() {
     // Store the note in the localStorage
-    localStorage.setItem("note", JSON.stringify(notesArray)); 
+    localStorage.setItem("note", JSON.stringify(notesArray));
   }
 
   // Create a function to clear the scheduler once a new day begins
