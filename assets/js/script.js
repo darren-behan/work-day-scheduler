@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
   // Create variables
-  var currentDate = moment().format("dddd, MMMM Do YYYY");;
+  var currentDate = moment().format("dddd, MMMM Do YYYY");
+  var currentTime = moment().format("H:mm:ss");
   var currentHour = moment().hour();
   var notesArray = [];
   var notesObject = {};
@@ -48,6 +49,13 @@ $(document).ready(function() {
     storeNotes();
   })
 
+  // Click event for save button
+  $(".clear").on("click", function(event) {
+    event.preventDefault();
+
+    clearNotes();
+  })
+
   // Create a function to load scheduler
   function renderHtmlElements() {
     // Assign current date
@@ -55,7 +63,7 @@ $(document).ready(function() {
 
     // Assign current time
     setInterval(function () {
-      $("#currentTime").html(moment().format('LTS'));
+      $("#currentTime").html(moment().format("H:mm:ss"));
     }, 1000);
 
     // Create a for loop of an array 
@@ -64,7 +72,7 @@ $(document).ready(function() {
       // Stores each index of the timeBlockTextArray
       timeBlockHour = timeBlockTextArray[i];
 
-      // Create the html elements with classes:
+      // Create the html elements to enter notes with classes:
 
       // Create a <div> with a class of "row"
       rowDiv = $("<div>");
@@ -89,7 +97,7 @@ $(document).ready(function() {
       inputTextArea.attr("class", "form-control");
       inputTextArea.attr("aria-label", "With textarea");         
 
-      // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-secondary"
+      // Create a <button> with classes of "saveBtn fa fa-floppy-o fa-2x btn btn-success"
       saveButton = $("<button>");
       saveButton.attr("type", "button");
       saveButton.attr("class", "fa fa-floppy-o fa-2x btn btn-success saveBtn");
@@ -115,6 +123,15 @@ $(document).ready(function() {
       // <button> appends to <section>
       timeBlockSection.append(saveButton);
     }
+
+    // Create a <button> with classes of "btn btn-success"
+    clearNotesButton = $("<button>");
+    clearNotesButton.attr("type", "button");
+    clearNotesButton.attr("class", "btn btn-danger clear");
+    clearNotesButton.html("Clear Schedule");        
+
+    // (".btn btn-danger") appends to (".container")
+    $(".container").append(clearNotesButton);
   }
 
   function renderNotes() {
@@ -128,7 +145,7 @@ $(document).ready(function() {
     }
 
     // Clearing the textarea
-    $(".form-control").val('');
+    $(".form-control").val("");
 
     // Render notes to the DOM
     // Loop through notesArray
@@ -173,5 +190,14 @@ $(document).ready(function() {
   function storeNotes() {
     // Store the note in the localStorage
     localStorage.setItem("note", JSON.stringify(notesArray)); 
+  }
+
+  // Create a function to clear the scheduler once a new day begins
+  function clearNotes() {
+    // Clearing the textarea
+    $(".form-control").val("");
+
+    // Clear localStorage
+    localStorage.clear();
   }
 });
