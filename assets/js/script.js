@@ -1,6 +1,7 @@
 $(document).ready(function() {
 
   // Create variables
+  var currentDate = moment().format("dddd, MMMM Do YYYY");;
   var currentHour = moment().hour();
   var notesArray = [];
   var notesObject = {};
@@ -30,15 +31,15 @@ $(document).ready(function() {
     event.preventDefault();
 
     // Store the data-index of button
-    var buttonId = $(this).attr('data-index');
+    var buttonId = $(this).attr("data-index");
 
-    // Store the data-index of button
-    var textAreaValue = $(this).closest('section').find('textarea').val().trim();
+    // Store the text from the textarea
+    var textAreaValue = $(this).closest("section").find("textarea").val();
 
     // Object to store the note and it's row unique key
     notesObject = {};
 
-    // Create key-value pair in notesObject with the key being the rowUniqueKey and the value being that rows textAreaValue
+    // Create key-value pair in notesObject with the key being the buttonId and the value being that rows textAreaValue
     notesObject[buttonId] = textAreaValue;
 
     // Push the notesObject to the notesArray
@@ -49,6 +50,13 @@ $(document).ready(function() {
 
   // Create a function to load scheduler
   function renderHtmlElements() {
+    // Assign current date
+    $("#currentDay").html(currentDate);
+
+    // Assign current time
+    setInterval(function () {
+      $("#currentTime").html(moment().format('LTS'));
+    }, 1000);
 
     // Create a for loop of an array 
     for (var i = 0; i < timeBlockTextArray.length; i++) {
@@ -120,7 +128,7 @@ $(document).ready(function() {
     }
 
     // Clearing the textarea
-    $('.form-control').val('');
+    $(".form-control").val('');
 
     // Render notes to the DOM
     // Loop through notesArray
@@ -128,19 +136,18 @@ $(document).ready(function() {
       // Assign each note (key/value) to a variable
       var note = notesArray[i];
       // Assign the key of each note to a variable
-      var getKey = Object.keys(note);
+      var noteKey = Object.keys(note);
       // Assign the value of the note to a variable
-      var getValue = Object.values(note);
-      console.log(getValue);
+      var noteValue = Object.values(note);
       // Assign the values to it's respective textarea
-      $('#' + getKey).val(getValue[0]);
+      $("#" + noteKey).val(noteValue[0]);
     }
   }
 
   // Create a function to style each textarea based on the current time
   function styleTextAreaBasedOnTime() {
     // Map each textarea id, return each id and store in an array
-    textAreaId = $(".form-control[id]").map(function() {
+    textAreaId = $(".form-control").map(function() {
       // Return textarea id
       return this.id;
     });
