@@ -1,16 +1,21 @@
 # work-day-scheduler
-Organise your workday with this scheduler
-
-Create a simple calendar application that allows the user to save events for each hour of the day. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
-
-You'll need to use the [Moment.js](https://momentjs.com/) library to work with date and time. Be sure to read the documentation carefully and concentrate on using Moment.js in the browser.
-
-## User Story
 
 ```
-AS AN employee with a busy schedule
-I WANT to add important events to a daily planner
-SO THAT I can manage my time effectively
+Organise your workday with this scheduler
+```
+
+![Work Day Scheduler](./assets/img/scheduler.png)
+
+Plan your day --> [Work Day Scheduler](https://darren-behan.github.io/work-day-scheduler/)
+
+## About
+
+```
+Enter a note in the text area in each hour.
+As each hour passes, the text area will grey out.
+The current hour is represented by the color red filling the text area.
+Future hours are represented by the color green filling the text area.
+Click the 'Clear Schedule' button to clear the scheduler to start planning your day
 ```
 
 ## Acceptance Criteria
@@ -29,4 +34,8 @@ WHEN I click the save button for that timeblock
 THEN the text for that event is saved in local storage
 WHEN I refresh the page
 THEN the saved events persist
+```
+
+```
+This app is powered by Bootstrap, Javascript, jQuery & moment.js.
 ```
